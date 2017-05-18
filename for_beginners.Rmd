@@ -1,0 +1,279 @@
+---
+title: "データフレームの扱い方 <br> 初級編"
+author: "@y__mattu"
+date: "2017/5/20 Tokyo.R #61"
+output:
+  xaringan::moon_reader:
+    css: "for_xaringan.css"
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+```{r eval=TRUE, echo=FALSE, warning=FALSE, message=FALSE, comment=""}
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "",
+                      fig.height = 7,
+                      fig.width = 7,
+                      out.height = 400,
+                      out.width = 400)
+```
+
+```{css}
+/* echo=true 時の r 出力ブロック */
+.remark-slide-content > pre:first-of-type {
+  overflow: auto;
+  max-height: 15em;
+}
+
+/* echo=false 時の出力ブロック */
+.remark-slide-content > pre:only-of-type {
+  overflow-y: auto;
+  max-height: 40em;
+}
+
+/* echo=true 時の出力ブロック */
+.remark-slide-content > pre ~ pre {
+  overflow-y: auto;
+  max-height: 20em;
+}
+```
+
+
+# はじめに
+## 自己紹介
+.pull-left[
+- 松村優哉
+- <u>Twitter</u>: **y\_\_mattu**
+- <u>GitHub</u>: **ymattu**
+- M1
+- 計量経済学、ベイズ統計、因果推論、マーケティング
+- 言語: R(2 年), SAS, Python
+- https://ymattu.github.io/
+- http://y-mattu.hatenablog.com/
+- Tokyo.R 運営チーム
+
+]
+
+.pull-right[
+![icon](./slide_img/twitter_icon.jpg)
+]
+---
+
+# データ分析の流れ
+.pull-left[
+```{r echo=FALSE}
+library(DiagrammeR)
+
+grViz("
+digraph data_analytics {
+
+      # graph
+      graph [overlap = true, fontsize = 10]
+
+      # node
+      node [shape=box,
+      fontname = Helvetica,
+      style = filled,
+      fillcolor = SteelBlue,
+      fontcolor = white]
+      データ取得;
+
+      node [shape = box,
+      fontname = Helvetica,
+      fillcolor = Gray,
+      fontcolor = black]
+      前処理; 可視化・モデリング;
+
+      # edge
+      データ取得->前処理
+      前処理->可視化・モデリング
+      }
+      ")
+```
+]
+
+.pull-right[
+- データベース(SQL)
+- 外部ファイル(csv, tsv,...)
+- Web から取得(スクレイピング)
+
+etc
+]
+
+---
+
+# データ分析の流れ
+.pull-left[
+```{r echo=FALSE}
+library(DiagrammeR)
+
+grViz("
+digraph data_analytics {
+
+      # graph
+      graph [overlap = true, fontsize = 10]
+
+      # node
+      node [shape=box,
+      fontname = Helvetica,
+      style = filled,
+      fillcolor = SteelBlue,
+      fontcolor = white]
+      前処理;
+
+      node [shape = box,
+      fontname = Helvetica,
+      fillcolor = Gray,
+      fontcolor = black]
+      データ取得; 可視化・モデリング;
+
+      # edge
+      データ取得->前処理
+      前処理->可視化・モデリング
+      }
+      ")
+```
+]
+
+.pull-right[
+- 集計
+- 絞り込み
+- マージ
+- 前処理
+
+etc
+]
+
+---
+
+# データ分析の流れ
+.pull-left[
+```{r echo=FALSE}
+library(DiagrammeR)
+
+grViz("
+digraph data_analytics {
+
+      # graph
+      graph [overlap = true, fontsize = 10]
+
+      # node
+      node [shape=box,
+      fontname = Helvetica,
+      style = filled,
+      fillcolor = SteelBlue,
+      fontcolor = white]
+      可視化・モデリング;
+
+      node [shape = box,
+      fontname = Helvetica,
+      fillcolor = Gray,
+      fontcolor = black]
+      データ取得; 前処理;
+
+      # edge
+      データ取得->前処理
+      前処理->可視化・モデリング
+      }
+      ")
+```
+]
+
+.pull-right[
+- 可視化
+    - 散布図
+    - ヒストグラム
+    - 箱ひげ図
+    - 前処理
+- モデリング
+    - 回帰分析(重回帰、ロジスティック,...)
+    - 時系列分析
+    - クラスタリング(k-means とか)
+    - サポートベクトルマシン
+    - ランダムフォレスト
+
+etc
+]
+
+---
+
+# 今日のお話
+.pull-left[
+```{r echo=FALSE}
+library(DiagrammeR)
+
+grViz("
+digraph data_analytics {
+
+      # graph
+      graph [overlap = true, fontsize = 10]
+
+      # node
+      node [shape=box,
+      fontname = Helvetica,
+      style = filled,
+      fillcolor = SteelBlue,
+      fontcolor = white]
+      データ取得; 前処理;
+
+      node [shape = box,
+      fontname = Helvetica,
+      fillcolor = Gray,
+      fontcolor = black]
+      可視化・モデリング;
+
+      # edge
+      データ取得->前処理
+      前処理->可視化・モデリング
+      }
+      ")
+```
+]
+
+.pull-right[
+- データ取得(外部ファイルの読み込み)
+    - csv
+    - tsv
+    - excel
+    - sas, spss
+
+- 前処理
+    - 列選択
+    - 絞り込み
+    - 列追加
+    - 集計
+    - マージ
+    - 縦横変換
+
+]
+
+---
+
+# 今日のお話(パッケージ的に)
+.pull-left[
+### データの読み込み
+- `readr`
+-  `data.table`
+-  `readxl`
+-  `haven`
+]
+
+.pull-right[
+### データの前処理
+- `dplyr`
+    - `select`
+    - `filter`
+    - `mutate`
+    - `group_by`
+    - `arrange`
+    - `***_join`
+- `tidyr`
+    - `gather`
+    - `spread`
+]
+---
+

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>データフレームの扱い方   初級編</title>
+    <meta charset="utf-8">
+    <meta name="author" content="@y__mattu" />
+    <script src="for_beginners_files/htmlwidgets-0.8/htmlwidgets.js"></script>
+    <script src="for_beginners_files/viz-0.3/viz.js"></script>
+    <link href="for_beginners_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="for_beginners_files/grViz-binding-0.9.0/grViz.js"></script>
+    <link rel="stylesheet" href="for_xaringan.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# データフレームの扱い方 <br> 初級編
+### <span class="citation">@y__mattu</span>
+### 2017/5/20 Tokyo.R #61
+
+---
+
+
+
+&lt;style type="text/css"&gt;
+/* echo=true 時の r 出力ブロック */
+.remark-slide-content &gt; pre:first-of-type {
+  overflow: auto;
+  max-height: 15em;
+}
+
+/* echo=false 時の出力ブロック */
+.remark-slide-content &gt; pre:only-of-type {
+  overflow-y: auto;
+  max-height: 40em;
+}
+
+/* echo=true 時の出力ブロック */
+.remark-slide-content &gt; pre ~ pre {
+  overflow-y: auto;
+  max-height: 20em;
+}
+&lt;/style&gt;
+
+
+# はじめに
+## 自己紹介
+.pull-left[
+- 松村優哉
+- &lt;u&gt;Twitter&lt;/u&gt;: **y\_\_mattu**
+- &lt;u&gt;GitHub&lt;/u&gt;: **ymattu**
+- M1
+- 計量経済学、ベイズ統計、因果推論、マーケティング
+- 言語: R(2 年), SAS, Python
+- https://ymattu.github.io/
+- http://y-mattu.hatenablog.com/
+- Tokyo.R 運営チーム
+
+]
+
+.pull-right[
+![icon](./slide_img/twitter_icon.jpg)
+]
+---
+
+# データ分析の流れ
+.pull-left[
+<div id="htmlwidget-77708e7f8fa6ce851314" style="width:400px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-77708e7f8fa6ce851314">{"x":{"diagram":"\ndigraph data_analytics {\n\n      # graph\n      graph [overlap = true, fontsize = 10]\n\n      # node\n      node [shape=box,\n      fontname = Helvetica,\n      style = filled,\n      fillcolor = SteelBlue,\n      fontcolor = white]\n      データ取得;\n\n      node [shape = box,\n      fontname = Helvetica,\n      fillcolor = Gray,\n      fontcolor = black]\n      前処理; 可視化・モデリング;\n\n      # edge\n      データ取得->前処理\n      前処理->可視化・モデリング\n      }\n      ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+
+.pull-right[
+- データベース(SQL)
+- 外部ファイル(csv, tsv,...)
+- Web から取得(スクレイピング)
+
+etc
+]
+
+---
+
+# データ分析の流れ
+.pull-left[
+<div id="htmlwidget-a880db318fb946a92ed9" style="width:400px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a880db318fb946a92ed9">{"x":{"diagram":"\ndigraph data_analytics {\n\n      # graph\n      graph [overlap = true, fontsize = 10]\n\n      # node\n      node [shape=box,\n      fontname = Helvetica,\n      style = filled,\n      fillcolor = SteelBlue,\n      fontcolor = white]\n      前処理;\n\n      node [shape = box,\n      fontname = Helvetica,\n      fillcolor = Gray,\n      fontcolor = black]\n      データ取得; 可視化・モデリング;\n\n      # edge\n      データ取得->前処理\n      前処理->可視化・モデリング\n      }\n      ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+
+.pull-right[
+- 集計
+- 絞り込み
+- マージ
+- 前処理
+
+etc
+]
+
+---
+
+# データ分析の流れ
+.pull-left[
+<div id="htmlwidget-7826b4448880c31e4735" style="width:400px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7826b4448880c31e4735">{"x":{"diagram":"\ndigraph data_analytics {\n\n      # graph\n      graph [overlap = true, fontsize = 10]\n\n      # node\n      node [shape=box,\n      fontname = Helvetica,\n      style = filled,\n      fillcolor = SteelBlue,\n      fontcolor = white]\n      可視化・モデリング;\n\n      node [shape = box,\n      fontname = Helvetica,\n      fillcolor = Gray,\n      fontcolor = black]\n      データ取得; 前処理;\n\n      # edge\n      データ取得->前処理\n      前処理->可視化・モデリング\n      }\n      ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+
+.pull-right[
+- 可視化
+    - 散布図
+    - ヒストグラム
+    - 箱ひげ図
+    - 前処理
+- モデリング
+    - 回帰分析(重回帰、ロジスティック,...)
+    - 時系列分析
+    - クラスタリング(k-means とか)
+    - サポートベクトルマシン
+    - ランダムフォレスト
+
+etc
+]
+
+---
+
+# 今日のお話
+.pull-left[
+<div id="htmlwidget-208cd53c39c809198592" style="width:400px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-208cd53c39c809198592">{"x":{"diagram":"\ndigraph data_analytics {\n\n      # graph\n      graph [overlap = true, fontsize = 10]\n\n      # node\n      node [shape=box,\n      fontname = Helvetica,\n      style = filled,\n      fillcolor = SteelBlue,\n      fontcolor = white]\n      データ取得; 前処理;\n\n      node [shape = box,\n      fontname = Helvetica,\n      fillcolor = Gray,\n      fontcolor = black]\n      可視化・モデリング;\n\n      # edge\n      データ取得->前処理\n      前処理->可視化・モデリング\n      }\n      ","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+
+.pull-right[
+- データ取得(外部ファイルの読み込み)
+    - csv
+    - tsv
+    - excel
+    - sas, spss
+
+- 前処理
+    - 列選択
+    - 絞り込み
+    - 列追加
+    - 集計
+    - マージ
+    - 縦横変換
+
+]
+
+---
+
+# 今日のお話(パッケージ的に)
+.pull-left[
+### データの読み込み
+- `readr`
+-  `data.table`
+-  `readxl`
+-  `haven`
+]
+
+.pull-right[
+### データの前処理
+- `dplyr`
+    - `select`
+    - `filter`
+    - `mutate`
+    - `group_by`
+    - `arrange`
+    - `***_join`
+- `tidyr`
+    - `gather`
+    - `spread`
+]
+---
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
