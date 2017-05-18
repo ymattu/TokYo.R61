@@ -356,17 +356,74 @@ system.time(dat3 <- data.table::fread("log.csv"))
 dat <- read.delim("sample.tsv", stringAsFactors = FALSE)
 ```
 
-### 高速な読み込み 1
+### {**readr**}
 ```{r eval=FALSE}
 library(readr)
 dat <- read_tsv("sample.tsv")
 ```
 
-### 高速な読み込み 2
+### {**data.table**}
 ```{r eval=FALSE}
 library(data.table)
 dat <- fread("sample.tsv", data.table = FALSE)
 ```
 
 ---
+
+# その他の区切り値ファイル
+
+### R の標準関数
+```{r eval=FALSE}
+dat <- read.delim("sample.tsv", stringAsFactors = FALSE, sep = "|")
+```
+
+### {**readr**}
+```{r eval=FALSE}
+library(readr)
+dat <- read_delim("sample.tsv", "|")
+```
+
+### {**data.table**}
+```{r eval=FALSE}
+library(data.table)
+dat <- fread("sample.tsv", data.table = FALSE)
+```
+---
+
+# エクセルファイルの読み込み
+### エクセルファイルを読み込めるパッケージ
+- {xlsx}
+- {gdata}
+- {XLConnect}
+- {openxlsx}
+- {**redxl**} → 爆速
+
+### 読み込み方
+```{r eval=FALSE}
+dat <- readxl::read_excel("sample.xlsx", sheet = "シート名")
+# シート名はシート番号でも OK
+```
+---
+
+# その他拡張子の読み込み
+### SAS(.sas7bdat), STATA(.dta), SPSS(.sav)形式のファイル
+{**haven**} パッケージで読み込み
+
+#### SAS
+```{r eval=FALSE}
+dat <- haven::read_sas("sample.sas7bdat")
+```
+
+#### STATA
+```{r eval=FALSE}
+dat <- haven::read_dta("sample.dta")
+```
+
+#### SPSS
+```{r eval=FALSE}
+dat <- haven::read_sav("sample.sav")
+```
+
+---
+
 
