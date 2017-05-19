@@ -682,5 +682,216 @@ arrange(d, desc(Sepal.Width))
 
 ---
 
+class: inverse, middle
+background-color: #A4A4A4
+
+# テーブルのマージ
+
+---
+
+# 複数のテーブルを考える
+.pull-left[
+### a
+```{r echo=FALSE}
+a <- data.frame(
+  x1=c("A","B","C") ,
+  x2=c(1,2,3)
+)
+a
+```
+]
+
+.pull-right[
+### b
+```{r echo=FALSE}
+b <- data.frame(
+  x1=c("A","B","D") ,
+  x3=c(TRUE , FALSE , TRUE)
+)
+b
+```
+]
+
+- 基本は SQL と同じ
+
+---
+
+# `inner_join()`
+.pull-left[
+### a
+```{r echo=FALSE}
+a <- data.frame(
+  x1=c("A","B","C") ,
+  x2=c(1,2,3)
+)
+a
+```
+]
+
+.pull-right[
+### b
+```{r echo=FALSE}
+b <- data.frame(
+  x1=c("A","B","D") ,
+  x3=c(TRUE , FALSE , TRUE)
+)
+b
+```
+]
+
+
+```{r }
+inner_join(a, b, by = "x1")
+```
+
+---
+
+# `left_join()`
+.pull-left[
+### a
+```{r echo=FALSE}
+a <- data.frame(
+  x1=c("A","B","C") ,
+  x2=c(1,2,3)
+)
+a
+```
+]
+
+.pull-right[
+### b
+```{r echo=FALSE}
+b <- data.frame(
+  x1=c("A","B","D") ,
+  x3=c(TRUE , FALSE , TRUE)
+)
+b
+```
+]
+
+
+```{r }
+left_join(a, b, by = "x1")
+```
+
+---
+
+# `full_join()`
+.pull-left[
+### a
+```{r echo=FALSE}
+a <- data.frame(
+  x1=c("A","B","C") ,
+  x2=c(1,2,3)
+)
+a
+```
+]
+
+.pull-right[
+### b
+```{r echo=FALSE}
+b <- data.frame(
+  x1=c("A","B","D") ,
+  x3=c(TRUE , FALSE , TRUE)
+)
+b
+```
+]
+
+
+```{r }
+full_join(a, b, by = "x1")
+```
+
+---
+
+# `anti_join()`
+.pull-left[
+### a
+```{r echo=FALSE}
+a <- data.frame(
+  x1=c("A","B","C") ,
+  x2=c(1,2,3)
+)
+a
+```
+]
+
+.pull-right[
+### b
+```{r echo=FALSE}
+b <- data.frame(
+  x1=c("A","B","D") ,
+  x3=c(TRUE , FALSE , TRUE)
+)
+b
+```
+]
+
+
+```{r }
+anti_join(a, b, by = "x1")
+```
+
+---
+
+class: inverse, middle
+background-color: #A4A4A4
+
+# なぜ{`dplyr`}なのか
+
+---
+
+class: inverse, middle
+background-color: #00008B
+
+# 速い
+
+---
+
+class: inverse, middle
+background-color: #00008B
+background-image: url(`r knitr::image_uri('./slide_img/pipe.png')`)
+background-size: 300px
+
+# パイプ
+
+---
+
+# パイプ演算子
+- {`dplyr`} の依存パッケージ {magrittr} に含まれる
+- パイプを使わないと
+
+```{r }
+sepal_length <- select(d, contains("Sepal"), Species)
+sepal_group <- group_by(sepal_length, Species)
+sepal_mean <- summarise(sepal_group,
+                        s.w.mean = mean(Sepal.Width),
+                        s.l.mean = mean(Sepal.Length))
+sepal_mean
+```
+
+---
+
+# パイプ演算子
+- パイプを使うと
+```{r }
+d %>%
+  select(contains("Sepal"), Species) %>%
+  group_by(Species)%>%
+  summarise(s.w.mean = mean(Sepal.Width),
+            s.l.mean = mean(Sepal.Length))
+```
+
+---
+
+class: inverse, middle
+background-color: #A4A4A4
+
+# 縦横変換
+
+---
+
 
 
