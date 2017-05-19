@@ -297,8 +297,8 @@ dat <- readr::read_csv("hoge.csv")
 ---
 
 class: inverse, center
-background-image: url(https://www.rstudio.com/wp-content/uploads/2015/06/Rlogonew.png)
-background-size: 500px
+background-image: url(`r knitr::image_uri('./slide_img/readr_haven_readxl.png')`)
+background-size: 400px
 
 # データの読み込み
 
@@ -425,5 +425,60 @@ dat <- haven::read_sav("sample.sav")
 ```
 
 ---
+
+## 関数とかオプションとか覚えられない
+RStudio の GUI 読み込み
+
+![screenshot](./slide_img/gui1.png)
+
+---
+
+## RStudio の GUI 読み込み
+![screenshot2](./slide_img/gui2.png)
+
+---
+
+# 文字コードの指定
+- Windows の文字コードは Shift-JIS（CP932）
+- Mac の文字コードは UTF8
+- Windows で作られた（日本語を含む）ファイルを Mac で読むときは `Encoding=CP932`
+- Mac で作られた（日本語を含む）ファイルを Windows で読むときは `Encoding=UTF8`
+
+---
+
+# csv を CP932 で読む
+### R の標準関数
+```{r eval=FALSE}
+dat <- read.csv("sample.csv", stringAsFactors = FALSE, fileEncoding = "cp932")
+```
+
+### {**readr**}
+```{r eval=FALSE}
+dat <- readr::read_csv("sample.csv", locale = locale(encoding = "cp932"))
+```
+
+### {**data.table**}
+```{r eval=FALSE}
+dat <- data.table::fread("sample.csv", data.table = FALSE) %>%
+  dplyr::mutate(VAR1 = iconv(VAR1, from = "UTF8", to = "CP932"))
+```
+---
+
+class: inverse, center
+background-image: url(`r knitr::image_uri('./slide_img/dplyr_tidyr.png')`)
+background-size: 400px
+
+
+# データの前処理
+
+---
+
+
+
+
+
+
+
+
 
 
