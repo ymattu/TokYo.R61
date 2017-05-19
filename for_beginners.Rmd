@@ -38,7 +38,7 @@ knitr::opts_chunk$set(echo = TRUE,
 /* echo=true 時の出力ブロック */
 .remark-slide-content > pre ~ pre {
   overflow-y: auto;
-  max-height: 20em;
+  max-height: 15em;
 }
 ```
 
@@ -472,13 +472,215 @@ background-size: 400px
 # データの前処理
 
 ---
+# iris データを使います
 
+アヤメの 3 種（setosa, vrisicolor, verginica）について sepal（がく片）と petal（花弁）の長さ（length）と幅（width）を測ったデータセット
 
+```{r }
+library(dplyr)
+d <- iris
+d
+```
 
+---
 
+# データの構造を確認
 
+### R の標準関数
+```{r }
+str(d)
+```
 
+---
 
+# データの構造を確認
+
+### {**dplyr**}
+```{r }
+dplyr::glimpse(d)
+```
+
+---
+
+# Rstudio だと
+
+![screenshot3](./slide_img/rstudio_iris.png)
+
+---
+
+# RStudio だと
+`str()` の中身を確認できる
+
+![screenshot3](./slide_img/rstudio_str.png)
+
+---
+
+# データの構造を確認
+`summary()` 関数で要約統計量
+
+```{r }
+summary(d)
+```
+
+---
+
+# 集計
+
+### R の標準関数
+```{r }
+table(d$Species)
+```
+
+---
+
+# 集計
+
+### {**dplyr**}
+```{r }
+group_by(d, Species) %>%
+ summarise(number = n())
+```
+
+---
+
+# 特定の列を取り出す
+### R の標準関数
+```{r }
+d[, c(1, 3)] # 列番号を指定
+```
+
+---
+
+# 特定の列を取り出す
+### {**dplyr**}
+```{r }
+select(d, row_number(c(1, 3))) # 列番号を指定
+```
+
+---
+
+# 特定の列を取り出す
+### {**dplyr**} の別解
+```{r eval=FALSE}
+select(d, Sepal.Length, Petal.Length) #列名を指定
+select(d, contains("length", ignore.case = TRUE)) # "length"が含まれる列を選択
+```
+
+#### 他にもいろいろな選択方法が
+[dplyr の select() の引数に指定可能なバリエーションまとめ](http://qiita.com/hoxo_m/items/f2f1793c6f086d381340)
+
+---
+
+# 列の追加
+
+### R の標準関数
+```{r}
+d$petal.w.l = d$Petal.Length / d$Petal.Width
+d
+```
+
+---
+
+# 列の追加
+
+### R の標準関数
+または
+```{r}
+transform(d, petal.w.l = d$Petal.Length / d$Petal.Width)
+```
+
+---
+
+# 列の追加
+
+### {**dplyr**}
+```{r}
+mutate(d, petal.w.l = Petal.Length / Petal.Width)
+```
+
+---
+
+# カテゴリカルな変数もできる
+```{r }
+mutate(d[, -6], category = factor(Species,
+                            levels = c("setosa", "virginica", "versicolor"),
+                            labels = LETTERS[1:3]))
+```
+
+---
+
+# 特定の行を抽出
+setosa のみ, 長さ x 以上, etc …
+
+### R の標準関数
+```{r }
+subset(d, Species == "setosa")
+```
+
+---
+
+# 特定の行を抽出
+
+### R の標準関数
+```{r }
+subset(d, Sepal.Length > 5.0)
+```
+
+---
+
+# 特定の行を抽出
+### {**dplyr**}
+```{r }
+filter(d, Species == "setosa")
+```
+
+---
+
+# 特定の行を抽出
+### {**dplyr**}
+```{r }
+filter(d, Sepal.Length > 5.0)
+```
+
+---
+
+# ソート(昇順)
+
+### R の標準関数
+```{r }
+d[order(d[, 2]), ] # 2 列目(Sepal.Width)基準に昇順
+```
+
+---
+
+# ソート(降順)
+
+### R の標準関数
+```{r }
+d[order(d[, 2], decreasing = T), ] #降順
+```
+
+---
+
+# ソート(昇順)
+
+### {**dplyr**}
+
+```{r }
+arrange(d, Sepal.Width)
+```
+
+---
+
+# ソート(昇順)
+
+### {**dplyr**}
+
+```{r }
+arrange(d, desc(Sepal.Width))
+```
+
+---
 
 
 
