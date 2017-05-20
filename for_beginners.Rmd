@@ -893,5 +893,44 @@ background-color: #A4A4A4
 
 ---
 
+# 横から縦へ
+### 最初の状態(横)
+```{r }
+d
+```
+
+---
+
+# 横から縦へ
+### 変換後(縦)
+```{r }
+dd <- tidyr::gather(data = d, key = key_variable, value = valuevalue, -Species)
+dd
+```
+
+---
+
+# 横から縦へ
+### id を付けて縦変換
+```{r }
+ddd <- dplyr::mutate(d, id = rownames(d)) %>%
+  tidyr::gather(key = key_variable, value = valuevalue, -Species, -id)
+ddd
+```
+
+---
+
+# 縦から横へ
+### 横型に戻す
+```{r }
+tidyr::spread(ddd, key = key_variable, value = valuevalue)
+```
+
+
+
+
+
+
+
 
 
