@@ -341,8 +341,7 @@ dat <- fread("sample.csv", data.table = FALSE)
 
 
 # どのくらい早いの?
-あとで eval=FALSE を消す
-```{r eval=FALSE}
+```{r}
 system.time(dat <- read.csv("log.csv"))
 system.time(dat2 <- readr::read_csv("log.csv"))
 system.time(dat3 <- data.table::fread("log.csv"))
@@ -439,9 +438,9 @@ RStudio の GUI 読み込み
 ---
 
 # 文字コードの指定
-- Windows の文字コードは Shift-JIS（CP932）
-- Mac の文字コードは UTF8
-- Windows で作られた（日本語を含む）ファイルを Mac で読むときは `Encoding=CP932`
+- Windows の文字コードは **Shift-JIS（CP932）**
+- Mac の文字コードは **UTF8**
+- Windows で作られた（日本語を含む）ファイルを Mac で読むときは `Encoding=cp932`
 - Mac で作られた（日本語を含む）ファイルを Windows で読むときは `Encoding=UTF8`
 
 ---
@@ -961,6 +960,15 @@ factor 型の処理
 
 # おまけ: {**`tidyverse`**}
 
+- {**`readr`**}, {**`dplyr`**}, {**`ggplot2`**} など便利なパッケージが一括でインストールできる
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+
+- そのうち最もよく使うものを読み込める
+```{r message=TRUE}
+library(tidyverse)
+```
 
 ---
 
@@ -997,6 +1005,35 @@ background-size: 400px
 
 ---
 
+# 参考資料
+.pull-left[
+#### データの読み込み
+- [文字化けこわい、こわくない？](http://uribo.hatenablog.com/entry/2015/08/23/004222)
+- [readr，haven，readxl](http://oku.edu.mie-u.ac.jp/~okumura/stat/readr.html)
+- [R で tsv ファイルの読み込み](http://qiita.com/doskin/items/807c49963fcc54291834)
+- [R で Excel のデータを読む方法](https://oku.edu.mie-u.ac.jp/~okumura/stat/exceldata.html)
+]
+.pull-right[
+#### データの前処理
+- [dplyr を使いこなす！基礎編](http://qiita.com/matsuou1/items/e995da273e3108e2338e)
+- [dplyr を使いこなす！Window 関数編](http://qiita.com/matsuou1/items/db6e8c48fcfd791dd876)
+- [dplyr を使いこなす！JOIN 編](http://qiita.com/matsuou1/items/b1bd9778610e3a586e71)
+- [R の data.table と data.frame を dplyr で区別なく扱う](http://sinhrks.hatenablog.com/entry/2014/10/11/231321)
+- [R dplyr, tidyr でのグルーピング/集約/変換処理まとめ](http://sinhrks.hatenablog.com/entry/2014/10/13/003717)
+- [{tidyr}でよく使う関数のメモ](https://rpubs.com/kazutan/tidyr_memo)
+- [Hadley Ecosystem 2016](https://speakerdeck.com/s_uryu/hadley-ecosystem-2016?slide=32)
+- [Kazutan.R](https://kazutan.github.io/kazutanR/)
+- [dplyr の select() の引数に指定可能なバリエーションまとめ](http://qiita.com/hoxo_m/items/f2f1793c6f086d381340)
+- [俺たちの tidyverse はこれからだ！](http://notchained.hatenablog.com/entry/tidyverse)
+]
+---
+
+# 本資料について
+- スライドは{**rmarkdown**}, {**xaringan**} パッケージで作成しました。
+
+- 元 Rmd などは以下にあります。 <br> https://github.com/ymattu/TokyoR61
+
+---
 class: inverse, middle
 # Enjoy!
 
