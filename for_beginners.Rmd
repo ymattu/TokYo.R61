@@ -1019,13 +1019,15 @@ background-size: 400px
 - [dplyr を使いこなす！Window 関数編](http://qiita.com/matsuou1/items/db6e8c48fcfd791dd876)
 - [dplyr を使いこなす！JOIN 編](http://qiita.com/matsuou1/items/b1bd9778610e3a586e71)
 - [R の data.table と data.frame を dplyr で区別なく扱う](http://sinhrks.hatenablog.com/entry/2014/10/11/231321)
-- [R dplyr, tidyr でのグルーピング/集約/変換処理まとめ](http://sinhrks.hatenablog.com/entry/2014/10/13/003717)
 - [{tidyr}でよく使う関数のメモ](https://rpubs.com/kazutan/tidyr_memo)
 - [Hadley Ecosystem 2016](https://speakerdeck.com/s_uryu/hadley-ecosystem-2016?slide=32)
+- [dplyr 再入門（基本編）](https://speakerdeck.com/yutannihilation/dplyrzai-ru-men-ji-ben-bian)
 - [Kazutan.R](https://kazutan.github.io/kazutanR/)
 - [dplyr の select() の引数に指定可能なバリエーションまとめ](http://qiita.com/hoxo_m/items/f2f1793c6f086d381340)
 - [俺たちの tidyverse はこれからだ！](http://notchained.hatenablog.com/entry/tidyverse)
 ]
+
+
 ---
 
 # 本資料について
